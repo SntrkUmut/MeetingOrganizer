@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Organizer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary">Toplantı Listesi</h1>
+        <ul class="list-group">
+            {% for meeting in meetings %}
+                <li class="list-group-item">
+                    <strong>Toplantı konusu:</strong> {{ meeting.topic }} - <strong>Toplantı tarihi:</strong> {{ meeting.date }} - <strong>Toplantı saati:</strong> {{ meeting.start_time }}-{{ meeting.end_time }}
+                    <span class="float-right">
+                        <a class="btn btn-warning btn-sm" href="{{ url_for('update_meeting', meeting_id=meeting.id) }}">Güncelle</a>
+                        <a class="btn btn-danger btn-sm" href="{{ url_for('delete_meeting', meeting_id=meeting.id) }}">Sil</a>
+                    </span>
+                    <br>
+                    <small><strong>Katılımcılar:</strong>
+                        {% for participant in meeting.participants.split(',') %}
+                            {{ participant.strip() }}
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </small>
+                    
+                    
+                    <small><strong>- Platform linki:</strong> <a href="{{ meeting.platform_link }}" target="_blank">{{ meeting.platform_link }}</a></small>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="mt-5 text-primary">Toplantı Ekle</h2>
+        <form action="/add_meeting" method="post">
+            <div class="form-group">
+                <label for="topic">Toplantı Konusu:</label>
+                <input type="text" class="form-control" name="topic" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Tarih:</label>
+                <input type="text" class="form-control" name="date" required placeholder="GG/AA/YYYY">
+            </div>
+            <div class="form-group">
+                <label for="start_time">Başlangıç Saati:</label>
+                <input type="text" class="form-control" name="start_time" required placeholder="SS:DD">
+            </div>
+            <div class="form-group">
+                <label for="end_time">Bitiş Saati:</label>
+                <input type="text" class="form-control" name="end_time" required placeholder="SS:DD">
+            </div>
+            <div class="form-group">
+                <label for="participants">Katılımcılar:</label>
+                <input type="text" class="form-control" name="participants" required>
+            </div>
+            <div class="form-group">
+                <label for="platform_link">Platform Linki:</label>
+                <input type="text" class="form-control" name="platform_link" placeholder="https://example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

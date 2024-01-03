@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toplantı Güncelle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Toplantı Güncelle</h2>
+        <form action="{{ url_for('update_meeting', meeting_id=meeting.id) }}" method="post">
+            <div class="form-group">
+                <label for="topic">Toplantı Konusu:</label>
+                <input type="text" class="form-control" name="topic" value="{{ meeting.topic }}" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Tarih:</label>
+                <input type="text" class="form-control" name="date" value="{{ meeting.date }}" required placeholder="GG/AA/YYYY">
+            </div>
+            <div class="form-group">
+                <label for="start_time">Başlangıç Saati:</label>
+                <input type="text" class="form-control" name="start_time" value="{{ meeting.start_time }}" required placeholder="SS:DD">
+            </div>
+            <div class="form-group">
+                <label for="end_time">Bitiş Saati:</label>
+                <input type="text" class="form-control" name="end_time" value="{{ meeting.end_time }}" required placeholder="SS:DD">
+            </div>
+            <div class="form-group">
+                <label for="participants">Katılımcılar (virgülle ayırın):</label>
+                <input type="text" class="form-control" name="participants" required value="{{ ', '.join(meeting.participants.split(',')) }}">
+            </div>
+                        
+            <div class="form-group">
+                <label for="platform_link">Platform Linki:</label>
+                <input type="text" class="form-control" name="platform_link" placeholder="https://example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Güncelle</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
